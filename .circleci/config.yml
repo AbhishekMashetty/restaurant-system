@@ -1,18 +1,19 @@
 version: 2.1
-jobs:
-  build:
+executors:
+  docker-executor:
     docker:
       - image: circleci/python:3.9
 
+jobs:
+  build:
+    executor: docker-executor
+
     steps:
       - checkout
-
-      - setup_remote_docker:
-          version: "20.10.8"
 
       - run:
           name: Build Docker Image
           command: |
             docker build -t your-image-name:${CIRCLE_SHA1} .
-            docker login -u masettyabhishek -p navfyx-0sukhe-nexcEq
+            docker login -u $masettyabhishek -p navfyx-0sukhe-nexcEq
             docker push your-image-name:${CIRCLE_SHA1}
